@@ -1,8 +1,15 @@
 `use strict`
-buttonEl = document.getElementById(`coolbtn`);
+const getInputEl = document.getElementById(`getInput`);
+const buttonEl = document.getElementById(`coolbtn`);
+const todoEl = document.getElementById(`todo`);
 
-function onbuttonclicked() {
-console.log(`click`)
-};
+buttonEl.addEventListener(`click`, () => {
+    const todoId = getInputEl.value;
+    const url =`https://jsonplaceholder.typicode.com/todos/${todoId}`;
+    fetch(url)
+    .then((response) => response.json())
+    .then ((todo) => {
 
-buttonEl.onclick = onbuttonclicked;
+        todoEl.innerHTML = todo.title;
+    });
+});
