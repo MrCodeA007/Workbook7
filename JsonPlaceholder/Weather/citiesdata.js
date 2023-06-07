@@ -29,21 +29,28 @@ function dropdownSelector() {
     const city = citiesArray[i];
     optionEl.textContent = city.name;
     searchSelectorEl.appendChild(optionEl);
-  } }
-  //---------------------------------------------------
+  }
+}
+//---------------------------------------------------
 
- searchSelectorEl.addEventListener('change', () => {
-  
-
+searchSelectorEl.addEventListener("change", () => {
   let selectedValue = searchSelectorEl.value;
-  console.log(selectedValue)
+  console.log(selectedValue);
 
-  const selectedCity= citiesArray.find(
-     (city) => city.name === selectedValue 
-  )
-   const url =`https://api.weather.gov/points/${latitude}${longitude}`;
-   fetch(url)
-   .then((response) => response.json())
-  });
+  const selectedCity = citiesArray.find((city) => city.name === selectedValue);
+  const latitudeInput = selectedCity.latitude;
+  const longitudeInput = selectedCity.longitude;
+  const url = `https://api.weather.gov/points/${latitudeInput},${longitudeInput}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      //console.log(data.properties.forecast);
+      fetch(data.properties.forecast)
+        .then((response) => response.json())
+        .then((forecast) => {
+          console.log(forecast.properties.periods)
+        })
+    });
+});
 
-  dropdownSelector();
+dropdownSelector();
